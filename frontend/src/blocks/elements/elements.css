@@ -1,0 +1,8 @@
+.elements{
+    padding: calc(50.25px / 2) 0 calc(67px / 2) 0;
+}
+@media screen and (max-width: 1023px){
+    .elements{
+        padding: calc(33px / 2) 0 calc(48px / 2) 0;
+    }
+}
