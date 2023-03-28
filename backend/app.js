@@ -14,6 +14,7 @@ const { ERROR_NOT_FOUND } = require('./errors');
 const { createUser, login } = require('./controllers/users');
 const { auth } = require('./middlewares/auth');
 const { errorHandler } = require('./middlewares/error-handler');
+const { errorLogger, requestWinston } = require('./middlewares/Logger');
 
 const { PORT = 3000 } = process.env;
 
@@ -26,6 +27,7 @@ mongoose.connect('mongodb://127.0.0.1:27017/mestodb', {
 app.use(express.json());
 app.use(cookieParser());
 
+app.use(requestWinston); // подключаем логгер запросов
 app.post('/signup', celebrate({
   body: Joi.object().keys({
     email: Joi.string().required().email(),
@@ -50,8 +52,9 @@ app.use('*', (req, res, next) => {
   err.statusCode = ERROR_NOT_FOUND;
   next(err);
 });
-app.use(errors());
-app.use(errorHandler);
+app.use(errorLogger); // подключаем логгер ошибок
+app.use(errors()); // обработчик ошибок celebrate
+app.use(errorHandler); // централизованный обработчик ошибок
 
 app.listen(PORT, () => {
   console.log(`Порт - ${PORT}, сервер запущен`);

@@ -8,6 +8,7 @@ node_modules
 mestodb
 .idea
 .env
+*.log
 
 # Optional npm cache directory
 .npm
