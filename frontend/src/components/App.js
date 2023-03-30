@@ -140,7 +140,7 @@ function App() {
         return auth.register(email, password)
             .then((res) => {
                 setInfoToolTipMessage(true);
-                navigate("/sign-in", {replace: true});
+                navigate("/signin", {replace: true});
             }).catch((data) => {
                 setInfoToolTipMessage(false);
                 console.log(data);
@@ -156,11 +156,11 @@ function App() {
     }
 
     function handleButtonSignIn() {
-        navigate("/sign-in");
+        navigate("/signin");
     }
 
     function handleButtonSignUp() {
-        navigate("/sign-up");
+        navigate("/signup");
     }
 
     function checkToken() {
@@ -204,16 +204,16 @@ function App() {
                                    cards={cards}
                                />}
                     />
-                    <Route path="/sign-up" element={<Register handleRegister={handleRegister}
+                    <Route path="/signup" element={<Register handleRegister={handleRegister}
                                                               handleButtonSignIn={handleButtonSignIn}
                                                               setSignIn={setSignIn}
                     />}/>
-                    <Route path="/sign-in" element={<Login handleLogin={handleLogin}
+                    <Route path="/signin" element={<Login handleLogin={handleLogin}
                                                            setSignIn={setSignIn}
                     />}/>
                     <Route path="*" element={loggedIn ?
                         <Navigate to="/"/> :
-                        <Navigate to="/sign-up"/>}
+                        <Navigate to="/signup"/>}
                     />
                 </Routes>
                 <Footer/>

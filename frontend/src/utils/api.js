@@ -23,6 +23,7 @@ class Api {
     // получение имени профиля от сервера
     getProfileInfo() {
         return fetch(`${this._baseUrl}users/me`, {
+            credentials: "include",
             headers: this._headers
         })
             .then(res => this._checkResponse(res))
@@ -35,6 +36,7 @@ class Api {
                      }) {
         return fetch(`${this._baseUrl}users/me`, {
             method: 'PATCH',
+            credentials: "include",
             headers: this._headers,
             body: JSON.stringify({
                 name,
@@ -47,6 +49,7 @@ class Api {
     // получение карточек от сервера
     getInitialCards() {
         return fetch(`${this._baseUrl}cards`, {
+            credentials: "include",
             headers: this._headers,
         })
             .then(res => this._checkResponse(res))
@@ -59,6 +62,7 @@ class Api {
                 }) {
         return fetch(`${this._baseUrl}cards`, {
             method: 'POST',
+            credentials: "include",
             headers: this._headers,
             body: JSON.stringify({
                 name,
@@ -71,6 +75,7 @@ class Api {
     // получение аватара профиля
     getAvatarProfile() {
         return fetch(`${this._baseUrl}users/me`, {
+            credentials: "include",
             headers: this._headers
         })
             .then(res => this._checkResponse(res))
@@ -81,6 +86,7 @@ class Api {
         return fetch(`${this._baseUrl}users/me/avatar`, {
             method: 'PATCH',
             headers: this._headers,
+            credentials: "include",
             body: JSON.stringify({
                 avatar
             })
@@ -92,6 +98,7 @@ class Api {
     deleteCard(id) {
         return fetch(`${this._baseUrl}cards/${id}`, {
             method: 'DELETE',
+            credentials: "include",
             headers: this._headers
         })
             .then(res => this._checkResponse(res))
@@ -102,6 +109,7 @@ class Api {
             // удаление лайка карточки
             return fetch(`${this._baseUrl}cards/${id}/likes`, {
                 method: 'DELETE',
+                credentials: "include",
                 headers: this._headers
             })
                 .then(res => this._checkResponse(res))
@@ -109,6 +117,7 @@ class Api {
             // добавление лайка карточке
             return fetch(`${this._baseUrl}cards/${id}/likes`, {
                 method: 'PUT',
+                credentials: "include",
                 headers: this._headers,
             })
                 .then(res => this._checkResponse(res))
@@ -118,12 +127,21 @@ class Api {
 
 const api = new Api(
     {
+        baseUrl: 'http://localhost:3000/',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }
+);
+
+/*const api = new Api(
+    {
         baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-54/',
         headers: {
             authorization: '0abf54cd-edc4-4fb9-9a14-bce409a2bf77',
             'Content-Type': 'application/json'
         }
     }
-);
+);*/
 
 export default api;

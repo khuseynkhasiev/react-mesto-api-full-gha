@@ -27,7 +27,6 @@ const getUsers = async (req, res, next) => {
 // eslint-disable-next-line consistent-return
 const getUserMe = async (req, res, next) => {
   const userId = req.user._id;
-  console.log(userId);
   try {
     const user = await User.findById(userId);
     if (!user) {
@@ -190,6 +189,7 @@ const login = (req, res, next) => {
         .cookie('jsonWebToken', token, {
           maxAge: 3600000 * 24 * 7,
           httpOnly: true,
+          sameSite: true,
         })
         .send({ email: user.email });
     })

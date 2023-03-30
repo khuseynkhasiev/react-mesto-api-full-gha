@@ -8,6 +8,8 @@ const {
 } = require('celebrate');
 // eslint-disable-next-line import/no-extraneous-dependencies
 const cookieParser = require('cookie-parser');
+// eslint-disable-next-line import/no-extraneous-dependencies
+const cors = require('cors');
 const userRouter = require('./routes/users');
 const cardRouter = require('./routes/cards');
 const { ERROR_NOT_FOUND } = require('./errors');
@@ -19,7 +21,7 @@ const { errorLogger, requestWinston } = require('./middlewares/Logger');
 const { PORT = 3000 } = process.env;
 
 const app = express();
-
+app.use(cors({ origin: ['http://localhost:3001'], credentials: true }));
 mongoose.connect('mongodb://127.0.0.1:27017/mestodb', {
   useNewUrlParser: true,
 });
