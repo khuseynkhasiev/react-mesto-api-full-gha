@@ -23,12 +23,14 @@ function EditProfilePopup(props) {
         setDescription(currentUser.about);
     }, [currentUser, isOpen]);
 
-    function handleChangeName(e){
+    function handleChangeName(e) {
         setName(e.target.value);
     }
-    function handleChangeDescription(e){
+
+    function handleChangeDescription(e) {
         setDescription(e.target.value);
     }
+
     function handleSubmit(e) {
         // Запрещаем браузеру переходить по адресу формы
         e.preventDefault();
@@ -39,18 +41,23 @@ function EditProfilePopup(props) {
             about: description
         });
     }
+
     return (
-        <PopupWithForm title={'Редактировать профиль'} name={'add'} isOpen={isOpen} onSubmit={handleSubmit} onClose={onClose} textButton={isNameButton}>
+        <PopupWithForm title={'Редактировать профиль'} name={'add'} isOpen={isOpen} onSubmit={handleSubmit}
+                       onClose={onClose} textButton={isNameButton}>
             <>
-                <input onChange={handleChangeName} type="text" className="popup__input popup__input_type_name" name="name" id="popup-name"
-                       placeholder="Имя" value={name} minLength="2" maxLength="40" required />
+                <input onChange={handleChangeName} type="text" className="popup__input popup__input_type_name"
+                       name="name" id="popup-name"
+                       placeholder="Имя" value={name || ''} minLength="2" maxLength="40" required/>
                 <span className="popup__error" id="popup-name-error"></span>
-                <input onChange={handleChangeDescription} type="text" className="popup__input popup__input_type_about" name="about"
+                <input onChange={handleChangeDescription} type="text" className="popup__input popup__input_type_about"
+                       name="about"
                        id="popup-job"
-                       placeholder="Описание" value={description} minLength="2" maxLength="200" required />
+                       placeholder="Описание" value={description || ''} minLength="2" maxLength="200" required/>
                 <span className="popup__error" id="popup-job-error"></span>
             </>
         </PopupWithForm>
     )
 }
+
 export default EditProfilePopup;

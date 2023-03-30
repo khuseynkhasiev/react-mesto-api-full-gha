@@ -1,8 +1,8 @@
 class Api {
     constructor({
-        baseUrl,
-        headers
-    }) {
+                    baseUrl,
+                    headers
+                }) {
         this._baseUrl = baseUrl;
         this._headers = headers;
     }
@@ -23,76 +23,77 @@ class Api {
     // получение имени профиля от сервера
     getProfileInfo() {
         return fetch(`${this._baseUrl}users/me`, {
-                headers: this._headers
-            })
+            headers: this._headers
+        })
             .then(res => this._checkResponse(res))
     }
 
     // редактирования имени профиля на сервере
     patchProfileInfo({
-        name,
-        about
-    }) {
+                         name,
+                         about
+                     }) {
         return fetch(`${this._baseUrl}users/me`, {
-                method: 'PATCH',
-                headers: this._headers,
-                body: JSON.stringify({
-                    name,
-                    about
-                })
+            method: 'PATCH',
+            headers: this._headers,
+            body: JSON.stringify({
+                name,
+                about
             })
+        })
             .then(res => this._checkResponse(res))
     }
 
     // получение карточек от сервера
     getInitialCards() {
         return fetch(`${this._baseUrl}cards`, {
-                headers: this._headers,
-            })
+            headers: this._headers,
+        })
             .then(res => this._checkResponse(res))
     }
 
     //отправка новой карточки на сервер
     postNewCard({
-        name,
-        link
-    }) {
-        return fetch(`${this._baseUrl}cards`, {
-                method: 'POST',
-                headers: this._headers,
-                body: JSON.stringify({
                     name,
                     link
-                })
+                }) {
+        return fetch(`${this._baseUrl}cards`, {
+            method: 'POST',
+            headers: this._headers,
+            body: JSON.stringify({
+                name,
+                link
             })
+        })
             .then(res => this._checkResponse(res))
     }
 
     // получение аватара профиля
     getAvatarProfile() {
         return fetch(`${this._baseUrl}users/me`, {
-                headers: this._headers
-            })
+            headers: this._headers
+        })
             .then(res => this._checkResponse(res))
     }
 
     // изменение аватара профиля
     patchAvatarProfile(avatar) {
         return fetch(`${this._baseUrl}users/me/avatar`, {
-                method: 'PATCH',
-                headers: this._headers,
-                body: JSON.stringify({
-                    avatar
-                })
+            method: 'PATCH',
+            headers: this._headers,
+            body: JSON.stringify({
+                avatar
             })
+        })
             .then(res => this._checkResponse(res))
     }
+
     // удаление карточки
     deleteCard(id) {
         return fetch(`${this._baseUrl}cards/${id}`, {
-                method: 'DELETE',
-                headers: this._headers
-            })
+            method: 'DELETE',
+            headers: this._headers
+        })
             .then(res => this._checkResponse(res))
     }
 
@@ -104,16 +105,17 @@ class Api {
                 headers: this._headers
             })
                 .then(res => this._checkResponse(res))
-        } else if(!isLiked) {
+        } else if (!isLiked) {
             // добавление лайка карточке
             return fetch(`${this._baseUrl}cards/${id}/likes`, {
                 method: 'PUT',
                 headers: this._headers,
-        })
+            })
                 .then(res => this._checkResponse(res))
-            }
+        }
     }
 }
+
 const api = new Api(
     {
         baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-54/',
@@ -124,4 +126,4 @@ const api = new Api(
     }
 );
 
-export default api ;
+export default api;

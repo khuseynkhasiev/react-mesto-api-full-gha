@@ -15,10 +15,12 @@ function AddPlacePopup(props) {
         const {name, value} = e.target;
         setFormValues(prevState => ({...prevState, [name]: value}));
     }
+
     function handleSubmit(e) {
         e.preventDefault();
         onAddPlace(formValues);
     }
+
     return (
         <PopupWithForm title={'Новое место'} name={'add'} isOpen={isOpen} onClose={onClose} onSubmit={handleSubmit}
                        textButton={isNameButton}>
@@ -35,4 +37,5 @@ function AddPlacePopup(props) {
         </PopupWithForm>
     )
 }
+
 export default AddPlacePopup;

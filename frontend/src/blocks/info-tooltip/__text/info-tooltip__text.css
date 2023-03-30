@@ -1,0 +1,21 @@
+.info-tooltip__text{
+    font-family: Inter,Arial,"sans-serif";
+    font-style: normal;
+    font-weight: 900;
+    font-size: 24px;
+    line-height: 29px;
+    text-align: center;
+    color: #000000;
+    max-width: 358px;
+    width: 100%;
+    margin: 0 0 60px;
+}
+
+@media screen and (max-width: 767px){
+    .info-tooltip__text{
+        max-width: 244px;
+        margin: 0 0 50px;
+        font-size: 20px;
+        line-height: 24px;
+    }
+}

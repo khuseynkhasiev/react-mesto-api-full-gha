@@ -1,0 +1,23 @@
+.form__input{
+    background: none;
+    padding-left: 0;
+    padding-bottom: 13px;
+    border: none;
+    border-bottom: 2px solid #CCCCCC;
+    font-family: Inter,Arial,"sans-serif";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 17px;
+    color: #CCCCCC;
+    margin-bottom: 30px;
+}
+.form__input:last-of-type{
+    margin-bottom: 0;
+}
+
+@media screen and (max-width: 767px) {
+    .form__input{
+        padding-bottom: 11px;
+    }
+}

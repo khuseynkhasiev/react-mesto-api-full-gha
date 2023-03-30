@@ -1,5 +1,6 @@
 import PopupWithForm from "./PopupWithForm";
-function DeleteCardPopup(props){
+
+function DeleteCardPopup(props) {
     const {
         isOpen,
         onClose,
@@ -12,4 +13,5 @@ function DeleteCardPopup(props){
         </PopupWithForm>
     )
 }
+
 export default DeleteCardPopup;
