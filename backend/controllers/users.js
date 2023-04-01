@@ -26,7 +26,9 @@ const getUsers = async (req, res, next) => {
 };
 // eslint-disable-next-line consistent-return
 const getUserMe = async (req, res, next) => {
+  console.log(req);
   const userId = req.user._id;
+
   try {
     const user = await User.findById(userId);
     if (!user) {
@@ -55,6 +57,8 @@ const getUserMe = async (req, res, next) => {
 // eslint-disable-next-line consistent-return
 const getUserId = async (req, res, next) => {
   const { userId } = req.params;
+  console.log(req.params);
+
   try {
     const user = await User.findById(userId);
     if (!user) {
@@ -89,12 +93,8 @@ const createUser = (req, res, next) => {
     .then((hash) => User.create({
       email, password: hash, name, about, avatar,
     }))
-    .then(() => {
-      res.status(201).send(
-        {
-          email, name, about, avatar,
-        },
-      );
+    .then((data) => {
+      res.status(201).send(data);
     })
     .catch((e) => {
       if (e.code === 11000) {
@@ -118,6 +118,7 @@ const createUser = (req, res, next) => {
 const patchUser = async (req, res, next) => {
   /* const userId = req.cookies.id; */
   const userId = req.user._id;
+  console.log(req);
   try {
     const { name, about } = req.body;
     const user = await User.findOneAndUpdate(
@@ -186,12 +187,16 @@ const login = (req, res, next) => {
       });
       res
         .status(200)
-        .cookie('jsonWebToken', token, {
+        .cookie('jwt', token, {
           maxAge: 3600000 * 24 * 7,
           httpOnly: true,
           sameSite: true,
         })
-        .send({ email: user.email });
+        .send(user);
+
+      /*
+      .send({ email: user.email, id: user._id });
+      */
     })
     .catch((err) => {
       next(err);

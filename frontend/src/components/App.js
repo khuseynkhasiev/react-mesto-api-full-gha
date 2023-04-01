@@ -50,6 +50,21 @@ function App() {
         }
     }, [loggedIn]);
 
+
+    function checkToken() {
+        const token = localStorage.getItem('userId');
+
+        if (token) {
+            auth.getContent(token).then((res) => {
+                setUserEmail(res.data.email);
+                setLoggedIn(true);
+                navigate("/", {replace: true});
+            }).catch((data) => {
+                console.log(data);
+            })
+        }
+    }
+
     function handleCardLike(card) {
         // Снова проверяем, есть ли уже лайк на этой карточке
         const isLiked = card.likes.some(i => i._id === currentUser._id);
@@ -122,6 +137,22 @@ function App() {
     function handleLogin({email, password}) {
         return auth.authorize(email, password)
             .then((res) => {
+                if (res) {
+                    setUserEmail(res.email);
+                    setLoggedIn(true);
+                    navigate("/", {replace: true});
+                }
+                //setSignIn(false);
+            }).catch((data) => {
+                setInfoToolTip(true);
+                setInfoToolTipMessage(false);
+                console.log(data);
+            });
+    }
+
+/*    function handleLogin({email, password}) {
+        return auth.authorize(email, password)
+            .then((res) => {
                 if (res.token) {
                     setUserEmail(email);
                     localStorage.setItem('jwt', res.token);
@@ -134,13 +165,14 @@ function App() {
                 setInfoToolTipMessage(false);
                 console.log(data);
             });
-    }
+    }*/
+
 
     function handleRegister({email, password}) {
         return auth.register(email, password)
             .then((res) => {
                 setInfoToolTipMessage(true);
-                navigate("/signin", {replace: true});
+                navigate("/sign-in", {replace: true});
             }).catch((data) => {
                 setInfoToolTipMessage(false);
                 console.log(data);
@@ -151,30 +183,19 @@ function App() {
 
     function handleUserExit() {
         setLoggedIn(false);
-        localStorage.removeItem('jwt');
+        localStorage.removeItem('userId');
         setUserEmail('');
     }
 
     function handleButtonSignIn() {
-        navigate("/signin");
+        navigate("/sign-in");
     }
 
     function handleButtonSignUp() {
-        navigate("/signup");
+        navigate("/sign-up");
     }
 
-    function checkToken() {
-        const token = localStorage.getItem('jwt');
-        if (token) {
-            auth.getContent(token).then((res) => {
-                setUserEmail(res.data.email);
-                setLoggedIn(true);
-                navigate("/", {replace: true});
-            }).catch((data) => {
-                console.log(data);
-            })
-        }
-    }
+
 
     return (
         <CurrentUserContext.Provider value={currentUser}>
@@ -204,16 +225,16 @@ function App() {
                                    cards={cards}
                                />}
                     />
-                    <Route path="/signup" element={<Register handleRegister={handleRegister}
+                    <Route path="/sign-up" element={<Register handleRegister={handleRegister}
                                                               handleButtonSignIn={handleButtonSignIn}
                                                               setSignIn={setSignIn}
                     />}/>
-                    <Route path="/signin" element={<Login handleLogin={handleLogin}
+                    <Route path="/sign-in" element={<Login handleLogin={handleLogin}
                                                            setSignIn={setSignIn}
                     />}/>
                     <Route path="*" element={loggedIn ?
                         <Navigate to="/"/> :
-                        <Navigate to="/signup"/>}
+                        <Navigate to="/sign-up"/>}
                     />
                 </Routes>
                 <Footer/>
