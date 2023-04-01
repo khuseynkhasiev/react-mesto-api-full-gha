@@ -56,7 +56,7 @@ function App() {
 
         if (token) {
             auth.getContent(token).then((res) => {
-                setUserEmail(res.data.email);
+                setUserEmail(res.email);
                 setLoggedIn(true);
                 navigate("/", {replace: true});
             }).catch((data) => {
@@ -67,7 +67,8 @@ function App() {
 
     function handleCardLike(card) {
         // Снова проверяем, есть ли уже лайк на этой карточке
-        const isLiked = card.likes.some(i => i._id === currentUser._id);
+        //const isLiked = card.likes.some(i => i._id === currentUser._id);
+        const isLiked = card.likes.some(i => i === currentUser._id);
 
         // Отправляем запрос в API и получаем обновлённые данные карточки
         api.changeLikeCardStatus(card._id, isLiked)
@@ -150,23 +151,6 @@ function App() {
             });
     }
 
-/*    function handleLogin({email, password}) {
-        return auth.authorize(email, password)
-            .then((res) => {
-                if (res.token) {
-                    setUserEmail(email);
-                    localStorage.setItem('jwt', res.token);
-                    setLoggedIn(true);
-                    navigate("/", {replace: true});
-                }
-                //setSignIn(false);
-            }).catch((data) => {
-                setInfoToolTip(true);
-                setInfoToolTipMessage(false);
-                console.log(data);
-            });
-    }*/
-
 
     function handleRegister({email, password}) {
         return auth.register(email, password)
@@ -195,8 +179,6 @@ function App() {
         navigate("/sign-up");
     }
 
-
-
     return (
         <CurrentUserContext.Provider value={currentUser}>
             <div className="page" onKeyDown={(evt) => {
@@ -218,6 +200,7 @@ function App() {
                                    loggedIn={loggedIn}
                                    component={Main}
                                    handleEditProfileClick={handleEditProfileClick}
+                                   handleEditAvatarClick={handleEditAvatarClick}
                                    handleAddPlaceClick={handleAddPlaceClick}
                                    onCardClick={handleCardClick}
                                    onCardLike={handleCardLike}

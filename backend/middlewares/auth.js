@@ -8,6 +8,7 @@ module.exports.auth = (req, res, next) => {
   const token = req.cookies.jsonWebToken;
 */
   const token = req.cookies.jwt;
+  console.log(token);
 
   if (!token) {
     const err = new Error('Необходима авторизация');

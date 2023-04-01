@@ -150,8 +150,10 @@ const patchUser = async (req, res, next) => {
 const patchUserAvatar = async (req, res, next) => {
   /* const userId = req.cookies.id; */
   const userId = req.user._id;
+  console.log(req.user);
   try {
     const { avatar } = req.body;
+    console.log(req.body);
     const user = await User.findOneAndUpdate(
       userId,
       { avatar },
