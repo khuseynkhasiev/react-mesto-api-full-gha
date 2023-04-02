@@ -10,7 +10,8 @@ export default function Main(props) {
         handleEditProfileClick,
         onCardClick,
         onCardLike,
-        onCardDelete,
+        deleteForCard,
+        deleteCardPopup,
         cards
     } = props;
     const currentUser = useContext(CurrentUserContext);
@@ -38,7 +39,8 @@ export default function Main(props) {
                             return <Card
                                 onCardLike={onCardLike}
                                 onCardClick={onCardClick}
-                                onCardDelete={onCardDelete}
+                                deleteCardPopup={deleteCardPopup}
+                                deleteForCard={deleteForCard}
                                 card={card}
                                 key={card._id}/>
                         })

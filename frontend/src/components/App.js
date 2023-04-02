@@ -23,6 +23,7 @@ function App() {
     const [isAddPlacePopupOpened, setAddPlacePopupOpened] = useState(false);
     const [isEditAvatarProfilePopupOpened, setEditAvatarProfilePopupOpened] = useState(false);
     const [isDeleteCardPopupOpened, setDeleteCardPopupOpened] = useState(false);
+    const [cardForDelete, setCardForDelete] = useState(null);
     const [cards, setCards] = useState([]);
     const [selectedCard, setSelectorCard] = useState({isOpen: false});
     const [currentUser, setCurrentUser] = useState({});
@@ -33,8 +34,6 @@ function App() {
     const [infoToolTipMessage, setInfoToolTipMessage] = useState(false);
     const [infoToolTip, setInfoToolTip] = useState(false);
     const [signIn, setSignIn] = useState(true);
-    /*    const [isConfirmationPopupOpen, setIsConfirmationPopupOpen] = useState(false);
-        const [deletingCard, setDeletingCard] = useState(null);*/
 
     useEffect(() => {
         checkToken();
@@ -49,8 +48,6 @@ function App() {
             }).catch((data) => console.log(data.error));
         }
     }, [loggedIn]);
-
-
     function checkToken() {
         const token = localStorage.getItem('userId');
 
@@ -64,7 +61,6 @@ function App() {
             })
         }
     }
-
     function handleCardLike(card) {
         // Снова проверяем, есть ли уже лайк на этой карточке
         //const isLiked = card.likes.some(i => i._id === currentUser._id);
@@ -76,13 +72,15 @@ function App() {
                 setCards((state) => state.map((c) => c._id === card._id ? newCard : c));
             }).catch((data) => console.log(data.error));
     }
-
     function handleCardDelete(card) {
         api.deleteCard(card._id)
             .then(setCards(state => state.filter(item => item._id === card._id ? null : card))
-            ).catch((data) => console.log(data.error));
+            )
+            .then(() => {
+                setDeleteCardPopupOpened(false);
+            })
+            .catch((data) => console.log(data.error));
     }
-
     function closeAllPopups() {
         setEditProfilePopupOpened(false);
         setAddPlacePopupOpened(false);
@@ -91,7 +89,6 @@ function App() {
         setSelectorCard({isOpen: false});
         setInfoToolTip(false);
     }
-
     const handleEditAvatarClick = () => {
         setEditAvatarProfilePopupOpened(true);
     }
@@ -104,7 +101,6 @@ function App() {
     const handleCardClick = ({name, link}) => {
         setSelectorCard({isOpen: true, name: name, link: link});
     }
-
     function handleUpdateUser({name, about}) {
         setNameEditButton('Сохранение...');
         api.patchProfileInfo({name, about})
@@ -114,7 +110,6 @@ function App() {
             }).catch((data) => console.log(data.error))
             .finally(() => setNameEditButton('Сохранить'))
     }
-
     function handleUpdateAvatar({avatar}) {
         setNameEditButton('Сохранение...');
         api.patchAvatarProfile(avatar)
@@ -124,7 +119,6 @@ function App() {
             }).catch((data) => console.log(data.error))
             .finally(() => setNameEditButton('Сохранить'))
     }
-
     function handleAddPlaceSubmit({name, link}) {
         setNameAddButton('Сохранение...')
         api.postNewCard({name, link})
@@ -134,7 +128,6 @@ function App() {
             }).catch((data) => console.log(data.error))
             .finally(() => setNameAddButton('Создать'))
     }
-
     function handleLogin({email, password}) {
         return auth.authorize(email, password)
             .then((res) => {
@@ -150,8 +143,6 @@ function App() {
                 console.log(data);
             });
     }
-
-
     function handleRegister({email, password}) {
         return auth.register(email, password)
             .then((res) => {
@@ -164,26 +155,21 @@ function App() {
                 setInfoToolTip(true);
             });
     }
-
     function handleUserExit() {
         setLoggedIn(false);
         localStorage.removeItem('userId');
         setUserEmail('');
     }
-
     function handleButtonSignIn() {
         navigate("/sign-in");
     }
-
     function handleButtonSignUp() {
         navigate("/sign-up");
     }
 
     return (
         <CurrentUserContext.Provider value={currentUser}>
-            <div className="page" onKeyDown={(evt) => {
-                if (evt.key === "Escape") closeAllPopups();
-            }}>
+            <div className="page">
                 <Header
                     email={userEmail}
                     handleUserExit={handleUserExit}
@@ -204,8 +190,9 @@ function App() {
                                    handleAddPlaceClick={handleAddPlaceClick}
                                    onCardClick={handleCardClick}
                                    onCardLike={handleCardLike}
-                                   onCardDelete={handleCardDelete}
                                    cards={cards}
+                                   deleteCardPopup={setDeleteCardPopupOpened}
+                                   deleteForCard={setCardForDelete}
                                />}
                     />
                     <Route path="/sign-up" element={<Register handleRegister={handleRegister}
@@ -246,9 +233,15 @@ function App() {
                 />
                 <DeleteCardPopup
                     isOpen={isDeleteCardPopupOpened}
+                    onCardDelete={handleCardDelete}
                     onClose={closeAllPopups}
+                    cardForDelete={cardForDelete}
                 />
-                <ImagePopup card={selectedCard} onClose={closeAllPopups}/>
+                <ImagePopup
+                    card={selectedCard}
+                    onClose={closeAllPopups}
+                    isOpen={selectedCard.isOpen}
+                />
             </div>
         </CurrentUserContext.Provider>
     )

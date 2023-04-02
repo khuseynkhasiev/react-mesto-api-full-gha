@@ -6,7 +6,8 @@ export default function Card(props) {
         card,
         onCardClick,
         onCardLike,
-        onCardDelete
+        deleteForCard,
+        deleteCardPopup,
     } = props;
 
     function handleLikeClick() {
@@ -14,7 +15,8 @@ export default function Card(props) {
     }
 
     function handleDeleteClick() {
-        onCardDelete(card);
+        deleteCardPopup(true);
+        deleteForCard(card);
     }
 
     const currentUser = useContext(CurrentUserContext);

@@ -26,7 +26,6 @@ const getUsers = async (req, res, next) => {
 };
 // eslint-disable-next-line consistent-return
 const getUserMe = async (req, res, next) => {
-  console.log(req);
   const userId = req.user._id;
 
   try {
@@ -57,7 +56,6 @@ const getUserMe = async (req, res, next) => {
 // eslint-disable-next-line consistent-return
 const getUserId = async (req, res, next) => {
   const { userId } = req.params;
-  console.log(req.params);
 
   try {
     const user = await User.findById(userId);
@@ -116,9 +114,7 @@ const createUser = (req, res, next) => {
 };
 // eslint-disable-next-line consistent-return
 const patchUser = async (req, res, next) => {
-  /* const userId = req.cookies.id; */
   const userId = req.user._id;
-  console.log(req);
   try {
     const { name, about } = req.body;
     const user = await User.findOneAndUpdate(
@@ -148,12 +144,9 @@ const patchUser = async (req, res, next) => {
 };
 // eslint-disable-next-line consistent-return
 const patchUserAvatar = async (req, res, next) => {
-  /* const userId = req.cookies.id; */
   const userId = req.user._id;
-  console.log(req.user);
   try {
     const { avatar } = req.body;
-    console.log(req.body);
     const user = await User.findOneAndUpdate(
       userId,
       { avatar },
@@ -187,6 +180,15 @@ const login = (req, res, next) => {
       const token = jsonWebToken.sign({ _id: user._id }, NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret', {
         expiresIn: '7d',
       });
+      // eslint-disable-next-line no-shadow
+      const {
+        _id,
+        // eslint-disable-next-line no-shadow
+        email,
+        name,
+        about,
+        avatar,
+      } = user;
       res
         .status(200)
         .cookie('jwt', token, {
@@ -194,11 +196,13 @@ const login = (req, res, next) => {
           httpOnly: true,
           sameSite: true,
         })
-        .send(user);
-
-      /*
-      .send({ email: user.email, id: user._id });
-      */
+        .send({
+          _id,
+          email,
+          name,
+          about,
+          avatar,
+        });
     })
     .catch((err) => {
       next(err);
