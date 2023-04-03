@@ -123,7 +123,7 @@ function App() {
         setNameAddButton('Сохранение...')
         api.postNewCard({name, link})
             .then((newCard) => {
-                setCards([newCard, ...cards]);
+                setCards([ ...cards, newCard]);
                 closeAllPopups();
             }).catch((data) => console.log(data.error))
             .finally(() => setNameAddButton('Создать'))

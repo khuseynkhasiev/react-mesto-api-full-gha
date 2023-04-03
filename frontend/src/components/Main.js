@@ -43,7 +43,7 @@ export default function Main(props) {
                                 deleteForCard={deleteForCard}
                                 card={card}
                                 key={card._id}/>
-                        })
+                        }).reverse()
                     }
                 </ul>
             </section>
