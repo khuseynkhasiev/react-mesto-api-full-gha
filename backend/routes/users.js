@@ -6,12 +6,13 @@ const {
 } = require('../controllers/users');
 
 router.get('/', getUsers);
+router.get('/me', getUserMe);
 router.get('/:userId', celebrate({
   params: Joi.object().keys({
-    cardId: Joi.string().required().regex(/^[a-zA-Z0-9]{24}$/),
+    userId: Joi.string().required().regex(/^[a-zA-Z0-9]{24}$/),
   }).unknown(true),
 }), getUserId);
-router.get('/me', getUserMe);
+
 router.patch('/me', celebrate({
   body: Joi.object().keys({
     name: Joi.string().min(2).max(30),

@@ -1,0 +1,8 @@
+{
+  "short_name": "Mesto React Authorize",
+  "name": "Create React App Sample Mesto React Authorize",
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#000000",
+  "background_color": "#ffffff"
+}

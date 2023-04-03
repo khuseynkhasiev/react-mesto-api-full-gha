@@ -1,0 +1,12 @@
+.form__submit{
+    display: flex;
+    flex-direction: column;
+    max-width: 358px;
+    width: 100%;
+    margin: auto;
+}
+@media screen and (max-width: 767px) {
+    .form__submit{
+        max-width: 260px;
+    }
+}

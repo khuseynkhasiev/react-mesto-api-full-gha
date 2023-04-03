@@ -48,7 +48,6 @@ userSchema.statics.findUserByCredentials = function (email, password) {
   return this.findOne({ email }).select('+password')
     .then((user) => {
       if (!user) {
-        /* return Promise.reject(new Error('Неправильная почта или пароль').code(401)); */
         throw new UnauthorizedError('Неправильные почта или пароль');
       }
 
@@ -56,7 +55,6 @@ userSchema.statics.findUserByCredentials = function (email, password) {
         .then((matched) => {
           if (!matched) {
             throw new UnauthorizedError('Неправильные почта или пароль');
-            /* return Promise.reject(new Error('Неправильная почта или пароль').code(401)); */
           }
 
           return user;

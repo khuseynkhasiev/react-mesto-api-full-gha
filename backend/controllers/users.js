@@ -27,7 +27,7 @@ const getUsers = async (req, res, next) => {
 // eslint-disable-next-line consistent-return
 const getUserMe = async (req, res, next) => {
   const userId = req.user._id;
-  console.log(userId);
+
   try {
     const user = await User.findById(userId);
     if (!user) {
@@ -56,6 +56,7 @@ const getUserMe = async (req, res, next) => {
 // eslint-disable-next-line consistent-return
 const getUserId = async (req, res, next) => {
   const { userId } = req.params;
+
   try {
     const user = await User.findById(userId);
     if (!user) {
@@ -90,12 +91,8 @@ const createUser = (req, res, next) => {
     .then((hash) => User.create({
       email, password: hash, name, about, avatar,
     }))
-    .then(() => {
-      res.status(201).send(
-        {
-          email, name, about, avatar,
-        },
-      );
+    .then((data) => {
+      res.status(201).send(data);
     })
     .catch((e) => {
       if (e.code === 11000) {
@@ -117,7 +114,6 @@ const createUser = (req, res, next) => {
 };
 // eslint-disable-next-line consistent-return
 const patchUser = async (req, res, next) => {
-  /* const userId = req.cookies.id; */
   const userId = req.user._id;
   try {
     const { name, about } = req.body;
@@ -148,7 +144,6 @@ const patchUser = async (req, res, next) => {
 };
 // eslint-disable-next-line consistent-return
 const patchUserAvatar = async (req, res, next) => {
-  /* const userId = req.cookies.id; */
   const userId = req.user._id;
   try {
     const { avatar } = req.body;
@@ -185,13 +180,29 @@ const login = (req, res, next) => {
       const token = jsonWebToken.sign({ _id: user._id }, NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret', {
         expiresIn: '7d',
       });
+      // eslint-disable-next-line no-shadow
+      const {
+        _id,
+        // eslint-disable-next-line no-shadow
+        email,
+        name,
+        about,
+        avatar,
+      } = user;
       res
         .status(200)
-        .cookie('jsonWebToken', token, {
+        .cookie('jwt', token, {
           maxAge: 3600000 * 24 * 7,
           httpOnly: true,
+          sameSite: true,
         })
-        .send({ email: user.email });
+        .send({
+          _id,
+          email,
+          name,
+          about,
+          avatar,
+        });
     })
     .catch((err) => {
       next(err);

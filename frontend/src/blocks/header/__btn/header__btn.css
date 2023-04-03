@@ -1,0 +1,20 @@
+.header__btn{
+    background: none;
+    color: #FFFFFF;
+    font-family: 'Inter', 'Arial', 'sans-serif';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 22px;
+    padding: 0;
+    border: none;
+}
+.header__btn:hover{
+    opacity: .6;
+}
+@media screen and (max-width: 767px) {
+    .header__btn{
+        font-size: 14px;
+        line-height: 17px;
+    }
+}
