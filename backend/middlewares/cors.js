@@ -1,3 +1,4 @@
+/*
 const allowedCors = [
   'https://mestogram.nomoredomains.monster',
   'http://mestogram.nomoredomains.monster',
@@ -34,3 +35,4 @@ module.exports.handleCors = (req, res, next) => {
   }
   next();
 };
+*/
