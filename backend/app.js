@@ -19,8 +19,8 @@ const { errorHandler } = require('./middlewares/error-handler');
 const { errorLogger, requestWinston } = require('./middlewares/Logger');
 
 const arrowedCors = [
-  'https://mestogram.nomoredomains.monster/',
-  'http://mestogram.nomoredomains.monster/',
+  'https://mestogram.nomoredomains.monster',
+  'http://mestogram.nomoredomains.monster',
   'http://localhost:3001',
 ];
 const DEFAULT_ALLOWED_METHODS = 'GET,HEAD,PUT,PATCH,POST,DELETE';
