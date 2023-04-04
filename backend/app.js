@@ -9,8 +9,8 @@ const {
 // eslint-disable-next-line import/no-extraneous-dependencies
 const cookieParser = require('cookie-parser');
 // eslint-disable-next-line import/no-extraneous-dependencies
-const cors = require('cors');
-// const { handleCors } = require('./middlewares/cors');
+// const cors = require('cors');
+const { handleCors } = require('./middlewares/cors');
 const userRouter = require('./routes/users');
 const cardRouter = require('./routes/cards');
 const { ERROR_NOT_FOUND } = require('./errors');
@@ -19,17 +19,21 @@ const { auth } = require('./middlewares/auth');
 const { errorHandler } = require('./middlewares/error-handler');
 const { errorLogger, requestWinston } = require('./middlewares/Logger');
 
+/*
 const DEFAULT_ALLOWED_METHODS = 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS';
+*/
 
 const { PORT = 3000 } = process.env;
 const app = express();
 
+/*
 app.use(cors({ origin: ['https://mestogram.nomoredomains.monster'], methods: (DEFAULT_ALLOWED_METHODS), credentials: true }));
-
+*/
+app.use(handleCors);
 mongoose.connect('mongodb://127.0.0.1:27017/mestodb', {
   useNewUrlParser: true,
 });
-// app.use(handleCors);
+
 app.use(express.json());
 app.use(cookieParser());
 

@@ -1,4 +1,4 @@
-/*
+// Массив доменов, с которых разрешены кросс-доменные запросы
 const allowedCors = [
   'https://mestogram.nomoredomains.monster',
   'http://mestogram.nomoredomains.monster',
@@ -24,7 +24,6 @@ module.exports.handleCors = (req, res, next) => {
     // разрешаем кросс-доменные запросы любых типов (по умолчанию)
     res.header('Access-Control-Allow-Methods', DEFAULT_ALLOWED_METHODS);
   }
-
   // сохраняем список заголовков исходного запроса
   const requestHeaders = req.headers['access-control-request-headers'];
   if (method === 'OPTIONS') {
@@ -35,4 +34,3 @@ module.exports.handleCors = (req, res, next) => {
   }
   next();
 };
-*/
