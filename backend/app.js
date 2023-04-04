@@ -26,7 +26,6 @@ app.use(cors({ origin: ['https://mestogram.nomoredomains.monster'], credentials:
 mongoose.connect('mongodb://127.0.0.1:27017/mestodb', {
   useNewUrlParser: true,
 });
-
 app.use(express.json());
 app.use(cookieParser());
 
