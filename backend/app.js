@@ -18,21 +18,10 @@ const { auth } = require('./middlewares/auth');
 const { errorHandler } = require('./middlewares/error-handler');
 const { errorLogger, requestWinston } = require('./middlewares/Logger');
 
-const arrowedCors = [
-  'https://mestogram.nomoredomains.monster',
-  'http://mestogram.nomoredomains.monster',
-  'http://localhost:3001',
-  'http://localhost:3000',
-];
-const DEFAULT_ALLOWED_METHODS = 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS';
 const { PORT = 3000 } = process.env;
 const app = express();
 
-/*
-app.use(cors({ origin: ['https://mestogram.nomoredomains.monster/', 'http://mestogram.nomoredomains.monster/'], credentials: true }));
-*/
-
-app.use(cors({ origin: (arrowedCors), methods: (DEFAULT_ALLOWED_METHODS), credentials: true }));
+app.use(cors({ origin: ['https://mestogram.nomoredomains.monster'], credentials: true }));
 
 mongoose.connect('mongodb://127.0.0.1:27017/mestodb', {
   useNewUrlParser: true,
