@@ -19,7 +19,7 @@ const { auth } = require('./middlewares/auth');
 const { errorHandler } = require('./middlewares/error-handler');
 const { errorLogger, requestWinston } = require('./middlewares/Logger');
 
-const DEFAULT_ALLOWED_METHODS = 'GET,HEAD,PUT,PATCH,POST,DELETE, OPTIONS';
+const DEFAULT_ALLOWED_METHODS = 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS';
 
 const { PORT = 3000 } = process.env;
 const app = express();
