@@ -1,4 +1,4 @@
-const BASE_URL = 'https://api.mestogram.nomoredomains.monster/';
+const BASE_URL = 'https://api.mestogram.nomoredomains.monster';
 // const BASE_URL = 'http://localhost:3000';
 const getResponse = (res) => {
     return res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`);
