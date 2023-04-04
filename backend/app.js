@@ -22,8 +22,9 @@ const arrowedCors = [
   'https://mestogram.nomoredomains.monster',
   'http://mestogram.nomoredomains.monster',
   'http://localhost:3001',
+  'http://localhost:3000',
 ];
-const DEFAULT_ALLOWED_METHODS = 'GET,HEAD,PUT,PATCH,POST,DELETE';
+const DEFAULT_ALLOWED_METHODS = 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS';
 const { PORT = 3000 } = process.env;
 const app = express();
 
