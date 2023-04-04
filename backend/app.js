@@ -10,7 +10,7 @@ const {
 const cookieParser = require('cookie-parser');
 // eslint-disable-next-line import/no-extraneous-dependencies
 // const cors = require('cors');
-const handleCors = require('./middlewares/cors');
+const { handleCors } = require('./middlewares/cors');
 const userRouter = require('./routes/users');
 const cardRouter = require('./routes/cards');
 const { ERROR_NOT_FOUND } = require('./errors');
@@ -32,11 +32,13 @@ app.use(express.json());
 app.use(cookieParser());
 
 app.use(requestWinston); // подключаем логгер запросов
+
 app.get('/crash-test', () => {
   setTimeout(() => {
     throw new Error('Сервер сейчас упадёт');
   }, 0);
 });
+app.use(handleCors);
 app.post('/signup', celebrate({
   body: Joi.object().keys({
     email: Joi.string().required().email(),
