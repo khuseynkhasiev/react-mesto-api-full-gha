@@ -21,15 +21,13 @@ const { errorLogger, requestWinston } = require('./middlewares/Logger');
 
 const { PORT = 3000 } = process.env;
 const app = express();
-
-app.use(handleCors);
 /*
 app.use(cors({ origin: ['https://mestogram.nomoredomains.monster'], credentials: true }));
 */
-
 mongoose.connect('mongodb://127.0.0.1:27017/mestodb', {
   useNewUrlParser: true,
 });
+app.use(handleCors);
 app.use(express.json());
 app.use(cookieParser());
 
