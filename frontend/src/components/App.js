@@ -114,6 +114,7 @@ function App() {
         setNameEditButton('Сохранение...');
         api.patchAvatarProfile(avatar)
             .then((data) => {
+                console.log(data);
                 setCurrentUser(data);
                 closeAllPopups();
             }).catch((data) => console.log(data.error))

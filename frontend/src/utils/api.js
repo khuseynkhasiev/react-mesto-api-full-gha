@@ -21,7 +21,7 @@ class Api {
     // получение имени профиля от сервера
     getProfileInfo() {
 
-        return fetch(`${this._baseUrl}users/me`, {
+        return fetch(`${this._baseUrl}/users/me`, {
             credentials: "include",
             headers: {
                 'Content-Type': 'application/json'
@@ -36,7 +36,7 @@ class Api {
                          about
                      }) {
 
-        return fetch(`${this._baseUrl}users/me`, {
+        return fetch(`${this._baseUrl}/users/me`, {
             method: 'PATCH',
             credentials: "include",
             headers: {
@@ -52,7 +52,7 @@ class Api {
 
     // получение карточек от сервера
     getInitialCards() {
-        return fetch(`${this._baseUrl}cards`, {
+        return fetch(`${this._baseUrl}/cards`, {
             credentials: "include",
             headers: {
                 'Content-Type': 'application/json'
@@ -67,7 +67,7 @@ class Api {
                     link
                 }) {
 
-        return fetch(`${this._baseUrl}cards`, {
+        return fetch(`${this._baseUrl}/cards`, {
             method: 'POST',
             credentials: "include",
             headers: {
@@ -83,7 +83,7 @@ class Api {
 
     // получение аватара профиля
     getAvatarProfile() {
-        return fetch(`${this._baseUrl}users/me`, {
+        return fetch(`${this._baseUrl}/users/me`, {
             credentials: "include",
             headers: {
                 'Content-Type': 'application/json'
@@ -94,7 +94,7 @@ class Api {
 
     // изменение аватара профиля
     patchAvatarProfile(avatar) {
-        return fetch(`${this._baseUrl}users/me/avatar`, {
+        return fetch(`${this._baseUrl}/users/me/avatar`, {
             method: 'PATCH',
             credentials: "include",
             headers: {
@@ -109,7 +109,7 @@ class Api {
 
     // удаление карточки
     deleteCard(id) {
-        return fetch(`${this._baseUrl}cards/${id}`, {
+        return fetch(`${this._baseUrl}/cards/${id}`, {
             method: 'DELETE',
             credentials: "include",
             headers: {
@@ -122,7 +122,7 @@ class Api {
     changeLikeCardStatus(id, isLiked) {
         if (isLiked) {
             // удаление лайка карточки
-            return fetch(`${this._baseUrl}cards/${id}/likes`, {
+            return fetch(`${this._baseUrl}/cards/${id}/likes`, {
                 method: 'DELETE',
                 credentials: "include",
                 headers: {
@@ -132,7 +132,7 @@ class Api {
                 .then(res => this._checkResponse(res))
         } else if (!isLiked) {
             // добавление лайка карточке
-            return fetch(`${this._baseUrl}cards/${id}/likes`, {
+            return fetch(`${this._baseUrl}/cards/${id}/likes`, {
                 method: 'PUT',
                 credentials: "include",
                 headers: {
@@ -147,9 +147,10 @@ class Api {
 
 const api = new Api(
     {
-        // baseUrl: 'http://localhost:3000/',
-        baseUrl: 'https://api.mestogram.nomoredomains.monster/',
+        // baseUrl: 'http://localhost:3000',
+        baseUrl: 'https://api.mestogram.nomoredomains.monster',
     }
 );
+
 
 export default api;

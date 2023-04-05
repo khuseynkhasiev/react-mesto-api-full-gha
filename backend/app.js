@@ -27,7 +27,7 @@ const { PORT = 3000 } = process.env;
 const app = express();
 
 /*
-app.use(cors({ origin: ['https://mestogram.nomoredomains.monster'], methods: (DEFAULT_ALLOWED_METHODS), credentials: true }));
+app.use(cors({ origin: ['http://localhost:3001'], methods: (DEFAULT_ALLOWED_METHODS), credentials: true }));
 */
 app.use(handleCors);
 mongoose.connect('mongodb://127.0.0.1:27017/mestodb', {
