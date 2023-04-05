@@ -117,7 +117,7 @@ const patchUser = async (req, res, next) => {
   const userId = req.user._id;
   try {
     const { name, about } = req.body;
-    const user = await User.findOneAndUpdate(
+    const user = await User.findByIdAndUpdate(
       userId,
       { name, about },
       { new: true, runValidators: true },
@@ -147,7 +147,7 @@ const patchUserAvatar = async (req, res, next) => {
   const userId = req.user._id;
   try {
     const { avatar } = req.body;
-    const user = await User.findOneAndUpdate(
+    const user = await User.findByIdAndUpdate(
       userId,
       { avatar },
       { new: true, runValidators: true },
