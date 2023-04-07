@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-// eslint-disable-next-line import/no-extraneous-dependencies
 const bcrypt = require('bcryptjs');
 const UnauthorizedError = require('../errors/unathorizedError');
 
@@ -56,7 +55,6 @@ userSchema.statics.findUserByCredentials = function (email, password) {
           if (!matched) {
             throw new UnauthorizedError('Неправильные почта или пароль');
           }
-
           return user;
         });
     });

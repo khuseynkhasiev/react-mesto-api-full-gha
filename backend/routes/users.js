@@ -1,5 +1,4 @@
 const router = require('express').Router();
-// eslint-disable-next-line import/no-extraneous-dependencies
 const { celebrate, Joi } = require('celebrate');
 const {
   getUsers, getUserMe, getUserId, patchUser, patchUserAvatar,
@@ -9,19 +8,19 @@ router.get('/', getUsers);
 router.get('/me', getUserMe);
 router.get('/:userId', celebrate({
   params: Joi.object().keys({
-    userId: Joi.string().required().regex(/^[a-zA-Z0-9]{24}$/),
+    userId: Joi.string().hex().required(),
   }).unknown(true),
 }), getUserId);
 
 router.patch('/me', celebrate({
   body: Joi.object().keys({
-    name: Joi.string().min(2).max(30),
-    about: Joi.string().min(2).max(30),
+    name: Joi.string().min(2).max(30).required(),
+    about: Joi.string().min(2).max(30).required(),
   }).unknown(true),
 }), patchUser);
 router.patch('/me/avatar', celebrate({
   body: Joi.object().keys({
-    avatar: Joi.string().regex(/^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w.-]+)+[\w\-._~:/?#[\]@!$&'()*+,;=.]+$/),
+    avatar: Joi.string().regex(/^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w.-]+)+[\w\-._~:/?#[\]@!$&'()*+,;=.]+$/).required(),
   }).unknown(true),
 }), patchUserAvatar);
 
