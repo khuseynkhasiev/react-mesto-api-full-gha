@@ -8,7 +8,6 @@ const requestWinston = exressWinston.logger({
   ],
   format: winston.format.json(),
 });
-
 // логгер ошибок
 const errorLogger = exressWinston.errorLogger({
   transports: [

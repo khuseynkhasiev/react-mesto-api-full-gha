@@ -6,7 +6,7 @@ const ForbiddenError = require('../errors/forbiddenError');
 const getCards = async (req, res, next) => {
   try {
     const cards = await Card.find({});
-    return res.status(200).send(cards);
+    res.status(200).send(cards);
   } catch (e) {
     next(e);
   }
@@ -18,7 +18,7 @@ const createCard = async (req, res, next) => {
   const { name, link } = req.body;
   try {
     const card = await Card.create({ name, link, owner: userId });
-    return res.status(201).send(card);
+    res.status(201).send(card);
   } catch (e) {
     if (e.name === 'ValidationError') {
       const err = new UnaccurateDateError('Переданы некорректные данные при создании карточки');
@@ -46,7 +46,7 @@ const deleteCard = async (req, res, next) => {
       return;
     }
     await Card.deleteOne(card);
-    return res.status(200).send({ message: 'Карточка удалена' });
+    res.status(200).send({ message: 'Карточка удалена' });
   } catch (e) {
     if (e.name === 'CastError') {
       const error = new UnaccurateDateError('Переданы некорректные данные');
@@ -73,7 +73,7 @@ const putCardLike = async (req, res, next) => {
       next(err);
       return;
     }
-    return res.status(200).send(card);
+    res.status(200).send(card);
   } catch (e) {
     if (e.name === 'CastError') {
       const err = new UnaccurateDateError('Переданы некорректные данные для постановки/снятии лайка');
@@ -98,7 +98,7 @@ const deleteCardLike = async (req, res, next) => {
       next(err);
       return;
     }
-    return res.status(200).send(card);
+    res.status(200).send(card);
   } catch (e) {
     if (e.name === 'CastError') {
       const err = new UnaccurateDateError('Переданы некорректные данные для постановки/снятии лайка');
