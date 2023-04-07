@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 const jsonWebToken = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const User = require('../models/user');
@@ -10,7 +12,7 @@ const { NODE_ENV, JWT_SECRET } = process.env;
 const getUsers = async (req, res, next) => {
   try {
     const users = await User.find({});
-    return res.status(200).send(users);
+    res.status(200).send(users);
   } catch (e) {
     next(e);
   }
@@ -25,7 +27,7 @@ const getUserMe = async (req, res, next) => {
       next(err);
       return;
     }
-    return res.status(200).send(user);
+    res.status(200).send(user);
   } catch (e) {
     if (e.name === 'CastError') {
       const err = new UnaccurateDateError('Переданы некорректные данные');
@@ -46,7 +48,7 @@ const getUserId = async (req, res, next) => {
       next(err);
       return;
     }
-    return res.status(200).send(user);
+    res.status(200).send(user);
   } catch (e) {
     if (e.name === 'CastError') {
       const err = new UnaccurateDateError('Переданы некорректные данные');
@@ -97,7 +99,7 @@ const patchUser = async (req, res, next) => {
       next(err);
       return;
     }
-    return res.status(200).send(user);
+    res.status(200).send(user);
   } catch (e) {
     if (e.name === 'ValidationError' || e.name === 'CastError') {
       const err = new UnaccurateDateError('Переданы некорректные данные при обновлении профиля');
@@ -121,7 +123,7 @@ const patchUserAvatar = async (req, res, next) => {
       next(err);
       return;
     }
-    return res.status(200).send(user);
+    res.status(200).send(user);
   } catch (e) {
     if (e.name === 'ValidationError' || e.name === 'CastError') {
       const err = new UnaccurateDateError('Переданы некорректные данные при обновлении профиля');
@@ -133,7 +135,6 @@ const patchUserAvatar = async (req, res, next) => {
 };
 const login = (req, res, next) => {
   const { email, password } = req.body;
-
   User.findUserByCredentials(email, password)
     .then((user) => {
       const token = jsonWebToken.sign({ _id: user._id }, NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret', {
@@ -141,7 +142,6 @@ const login = (req, res, next) => {
       });
       const {
         _id,
-        email,
         name,
         about,
         avatar,
