@@ -1,14 +1,45 @@
-require('dotenv').config();
-
 const jsonWebToken = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const User = require('../models/user');
 const NotFoundError = require('../errors/notFoundError');
 const UnaccurateDateError = require('../errors/unaccurateDateError');
 const ConflictError = require('../errors/conflictError');
+const SECRET_KEY_DEV = require('../constants');
 
 const { NODE_ENV, JWT_SECRET } = process.env;
 
+const login = (req, res, next) => {
+  const { email, password } = req.body;
+  User.findUserByCredentials(email, password)
+    .then((user) => {
+      const token = jsonWebToken.sign({ _id: user._id }, NODE_ENV === 'production' ? JWT_SECRET : SECRET_KEY_DEV, {
+        expiresIn: '7d',
+      });
+      const {
+        _id,
+        name,
+        about,
+        avatar,
+      } = user;
+      res
+        .status(200)
+        .cookie('jwt', token, {
+          maxAge: 3600000 * 24 * 7,
+          httpOnly: true,
+          sameSite: false,
+        })
+        .send({
+          _id,
+          email,
+          name,
+          about,
+          avatar,
+        });
+    })
+    .catch((err) => {
+      next(err);
+    });
+};
 const getUsers = async (req, res, next) => {
   try {
     const users = await User.find({});
@@ -132,38 +163,6 @@ const patchUserAvatar = async (req, res, next) => {
     }
     next(e);
   }
-};
-const login = (req, res, next) => {
-  const { email, password } = req.body;
-  User.findUserByCredentials(email, password)
-    .then((user) => {
-      const token = jsonWebToken.sign({ _id: user._id }, NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret', {
-        expiresIn: '7d',
-      });
-      const {
-        _id,
-        name,
-        about,
-        avatar,
-      } = user;
-      res
-        .status(200)
-        .cookie('jwt', token, {
-          maxAge: 3600000 * 24 * 7,
-          httpOnly: true,
-          sameSite: false,
-        })
-        .send({
-          _id,
-          email,
-          name,
-          about,
-          avatar,
-        });
-    })
-    .catch((err) => {
-      next(err);
-    });
 };
 
 module.exports = {
